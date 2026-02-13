@@ -1,0 +1,156 @@
+{
+  "$schema": "Template manifest for MCP Factory AI engine",
+  "version": "1.0.0",
+
+  "templates": {
+    "typescript": {
+      "path": "./typescript",
+      "sdk": "@modelcontextprotocol/sdk ^1.26.0",
+      "schema_library": "zod ^3.25.0",
+      "min_runtime": "node >= 18.0.0",
+      "entry_point": "src/index.ts",
+      "build_command": "npm run build",
+      "test_command": "npm test",
+      "start_command": "node dist/index.js",
+      "best_for": [
+        "Complex multi-tool servers",
+        "Servers needing fine-grained control",
+        "HTTP/cloud deployments",
+        "Servers with structured output schemas"
+      ]
+    },
+    "python": {
+      "path": "./python",
+      "sdk": "mcp[cli] >= 1.2.0",
+      "schema_library": "pydantic >= 2.0.0",
+      "min_runtime": "python >= 3.10",
+      "entry_point": "src/mcp_server_template/__init__.py",
+      "build_command": "uv sync",
+      "test_command": "pytest",
+      "start_command": "mcp-server-{{SERVER_NAME}}",
+      "best_for": [
+        "Simple to medium complexity servers",
+        "AI/ML tool integrations",
+        "Rapid prototyping",
+        "Non-technical users (simpler code)"
+      ]
+    }
+  },
+
+  "placeholders": {
+    "{{SERVER_NAME}}": {
+      "description": "Snake_case server identifier (e.g., hotel_booking, email_manager)",
+      "source": "AI derives from user description",
+      "validation": "^[a-z][a-z0-9_-]{1,50}$"
+    },
+    "{{SERVER_DESCRIPTION}}": {
+      "description": "One-line human-readable description",
+      "source": "AI generates from user description",
+      "validation": "1-200 characters"
+    },
+    "{{SERVER_VERSION}}": {
+      "description": "Semantic version",
+      "source": "Always starts at 1.0.0",
+      "default": "1.0.0"
+    },
+    "{{SERVER_INSTRUCTIONS}}": {
+      "description": "Instructions for the LLM on how to use this server's tools",
+      "source": "AI generates context-specific instructions"
+    },
+    "{{ENABLE_TOOLS}}": {
+      "description": "Whether to enable tools capability",
+      "source": "AI decides based on requirements",
+      "default": "true"
+    },
+    "{{ENABLE_RESOURCES}}": {
+      "description": "Whether to enable resources capability",
+      "source": "AI decides — true if user needs data exposure",
+      "default": "false"
+    },
+    "{{ENABLE_PROMPTS}}": {
+      "description": "Whether to enable prompts capability",
+      "source": "AI decides — true if user needs prompt templates",
+      "default": "false"
+    },
+    "{{TOOL_IMPORTS}}": {
+      "description": "Import statements for generated tool files",
+      "source": "AI generates based on tools created",
+      "type": "code_block"
+    },
+    "{{TOOL_REGISTRATIONS}}": {
+      "description": "Registration calls for each tool",
+      "source": "AI generates based on tools created",
+      "type": "code_block"
+    },
+    "{{RESOURCE_IMPORTS}}": {
+      "description": "Import statements for generated resource files",
+      "source": "AI generates based on resources created",
+      "type": "code_block"
+    },
+    "{{RESOURCE_REGISTRATIONS}}": {
+      "description": "Registration calls for each resource",
+      "source": "AI generates based on resources created",
+      "type": "code_block"
+    },
+    "{{PROMPT_IMPORTS}}": {
+      "description": "Import statements for generated prompt files",
+      "source": "AI generates based on prompts created",
+      "type": "code_block"
+    },
+    "{{PROMPT_REGISTRATIONS}}": {
+      "description": "Registration calls for each prompt",
+      "source": "AI generates based on prompts created",
+      "type": "code_block"
+    },
+    "{{EXTRA_DEPENDENCIES}}": {
+      "description": "Additional npm/pip packages needed by generated tools",
+      "source": "AI determines from API integrations needed",
+      "type": "dependency_list"
+    },
+    "{{ENV_TEMPLATE}}": {
+      "description": "Environment variables needed by tools",
+      "source": "AI determines from API integrations",
+      "type": "env_vars"
+    },
+    "{{CLEANUP_LOGIC}}": {
+      "description": "Cleanup code for graceful shutdown",
+      "source": "AI adds based on resources held (DB connections, etc.)",
+      "type": "code_block"
+    },
+    "{{ALLOWED_ORIGINS}}": {
+      "description": "Allowed origins for HTTP transport CORS",
+      "source": "User provides or AI defaults to localhost",
+      "type": "string_list"
+    }
+  },
+
+  "ai_generation_rules": {
+    "tool_file_naming": {
+      "typescript": "kebab-case.ts (e.g., search-hotels.ts)",
+      "python": "snake_case.py (e.g., search_hotels.py)"
+    },
+    "tool_name_convention": "snake_case with dots for namespacing (e.g., hotels.search, hotels.book)",
+    "one_tool_per_file": true,
+    "max_tools_per_server": 25,
+    "always_include": [
+      "error handling (try/catch with isError: true)",
+      "input validation (Zod/Pydantic)",
+      "logging to stderr",
+      "tool annotations (readOnlyHint, destructiveHint, etc.)"
+    ],
+    "never_include": [
+      "console.log() in TypeScript (use console.error())",
+      "print() in Python (use logging)",
+      "hardcoded secrets",
+      "unvalidated user input"
+    ]
+  },
+
+  "delivery_formats": {
+    "source_code": "ZIP of the complete project",
+    "github_repo": "Push to user's GitHub",
+    "docker_image": "Pre-built Docker image",
+    "npm_package": "Published to npm (TypeScript)",
+    "pypi_package": "Published to PyPI (Python)"
+  }
+}

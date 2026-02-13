@@ -1,0 +1,39 @@
+[project]
+name = "mcp-server-{{SERVER_NAME}}"
+version = "1.0.0"
+description = "{{SERVER_DESCRIPTION}}"
+requires-python = ">=3.10"
+license = "MIT"
+dependencies = [
+    "mcp[cli]>=1.2.0",
+    "pydantic>=2.0.0",
+    "click>=8.1.7",
+    # {{EXTRA_DEPENDENCIES}} — AI factory adds per-tool deps
+    # Examples:
+    # "httpx>=0.27.0",       # For HTTP API calls
+    # "sqlalchemy>=2.0.0",   # For database access
+    # "boto3>=1.34.0",       # For AWS services
+]
+
+[project.scripts]
+mcp-server-{{SERVER_NAME}} = "mcp_server_template:main"
+
+[build-system]
+requires = ["hatchling"]
+build-backend = "hatchling.build"
+
+[tool.hatch.build.targets.wheel]
+packages = ["src/mcp_server_template"]
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+python_files = "test_*.py"
+asyncio_mode = "auto"
+
+[dependency-groups]
+dev = [
+    "pytest>=8.0.0",
+    "pytest-asyncio>=0.23.0",
+    "pyright>=1.1.407",
+    "ruff>=0.7.3",
+]

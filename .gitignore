@@ -1,0 +1,42 @@
+# Dependencies
+node_modules/
+.venv/
+__pycache__/
+*.pyc
+*.pyo
+
+# Environment (NEVER commit real keys)
+.env
+backend/.env
+
+# Build output
+frontend/dist/
+*.egg-info/
+dist/
+build/
+
+# IDE
+.vscode/
+.idea/
+*.swp
+*.swo
+.DS_Store
+
+# Lock files (optional — remove if you want reproducible builds)
+# uv.lock
+# package-lock.json
+
+# MCP Factory runtime
+~/.mcp-factory/
+deployments/
+
+# Claude Code project files
+.claude/
+
+# Screenshots / dev artifacts
+*.png
+*.jpg
+*.jpeg
+
+# Logs
+*.log

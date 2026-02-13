@@ -1,0 +1,22 @@
+{
+  "_comment": "Add this to your MCP client configuration (Claude Desktop, Cursor, Windsurf, etc.)",
+  "mcpServers": {
+    "{{SERVER_NAME}}": {
+      "_option_1_local_node": {
+        "command": "node",
+        "args": ["/absolute/path/to/dist/index.js"],
+        "env": {}
+      },
+      "_option_2_npx": {
+        "command": "npx",
+        "args": ["-y", "@mcpfactory/server-{{SERVER_NAME}}"],
+        "env": {}
+      },
+      "_option_3_docker": {
+        "command": "docker",
+        "args": ["run", "-i", "--rm", "mcpfactory/server-{{SERVER_NAME}}"],
+        "env": {}
+      }
+    }
+  }
+}
