@@ -114,18 +114,19 @@ def _build_py_prompt(arch: MCPArchitecture, tool: ToolDefinition) -> list[dict]:
     register_func = _to_register_func_py(tool.name)
     tool_func = tool.name.replace(".", "_").replace("-", "_")
 
-    # Build typed params string
-    typed_params = []
+    # Build typed params string — required params MUST come before optional ones
+    required_params = []
+    optional_params = []
     for p in tool.parameters:
         type_map = {"string": "str", "number": "int", "boolean": "bool", "array": "list", "object": "dict"}
         py_type = type_map.get(p.type, "str")
         if p.required:
-            typed_params.append(f"{p.name}: {py_type}")
+            required_params.append(f"{p.name}: {py_type}")
         else:
             default = f'"{p.default}"' if p.default and py_type == "str" else (p.default or '""')
-            typed_params.append(f"{p.name}: {py_type} = {default}")
+            optional_params.append(f"{p.name}: {py_type} = {default}")
 
-    params_str = ", ".join(typed_params)
+    params_str = ", ".join(required_params + optional_params)
 
     # Include all sibling tools so the LLM can maintain consistent store usage
     sibling_tools = _format_tools_summary(arch)
@@ -434,17 +435,18 @@ def _build_py_prompt_prompt(arch: MCPArchitecture, prompt: PromptDefinition) -> 
     register_func = _to_register_prompt_func_py(prompt.name)
     prompt_func = prompt.name.replace(".", "_").replace("-", "_")
 
-    # Build typed params string
-    typed_params = []
+    # Build typed params string — required params MUST come before optional ones
+    required_params = []
+    optional_params = []
     for a in prompt.arguments:
         type_map = {"string": "str", "number": "int", "boolean": "bool"}
         py_type = type_map.get(a.type, "str")
         if a.required:
-            typed_params.append(f"{a.name}: {py_type}")
+            required_params.append(f"{a.name}: {py_type}")
         else:
             default = f'"{a.default}"' if a.default and py_type == "str" else (a.default or '""')
-            typed_params.append(f"{a.name}: {py_type} = {default}")
-    params_str = ", ".join(typed_params)
+            optional_params.append(f"{a.name}: {py_type} = {default}")
+    params_str = ", ".join(required_params + optional_params)
 
     system = """You are a code generator that produces Python MCP prompt implementation files.
 Output ONLY raw Python code. NEVER wrap output in markdown code fences (``` or ```python).
