@@ -4,9 +4,9 @@
 
 ### Describe it. Generate it. Deploy it. Connect it.
 
-**The AI-powered platform that turns natural language into production-ready MCP servers — in under 60 seconds.**
+**The AI-powered platform that turns natural language into fully functional MCP servers — in less than 10 minutes.**
 
-[Get Started](#-quick-start) | [How It Works](#-how-it-works) | [Architecture](#-architecture) | [Supported Providers](#-supported-llm-providers)
+[Get Started](#-quick-start) | [Architecture](#-architecture) | [Supported Providers](#-supported-llm-providers)
 
 ---
 
@@ -22,13 +22,13 @@
 
 ## What is MCP Factory?
 
-**MCP Factory** is a full-stack platform that generates complete, production-ready [Model Context Protocol (MCP)](https://modelcontextprotocol.io/) servers from a simple chat conversation.
+**MCP Factory** is a full-stack platform that generates complete, fully functional [Model Context Protocol (MCP)](https://modelcontextprotocol.io/) servers from a simple chat conversation.
 
 Instead of writing boilerplate, configuring SDKs, and wiring up transports manually — you just **describe what you need**, and MCP Factory:
 
 1. **Understands** your requirements through an intelligent conversation
 2. **Designs** a complete server architecture (tools, resources, prompts, auth, dependencies)
-3. **Generates** production-quality code via a 13-step AI pipeline
+3. **Generates** clean, structured code via a AI-powered pipeline
 4. **Validates** syntax, structure, and environment configuration
 5. **Deploys** the server locally and hands you ready-to-paste client configs
 6. **Pushes** to GitHub with one click (optional)
@@ -45,13 +45,13 @@ You:  "I need an MCP server that manages todo items with
 
 MCP Factory:
   ✓ Designed architecture: 5 tools, 2 resources, 1 prompt
-  ✓ Generated 13 files in Python
+  ✓ Generated complete project in Python
   ✓ Validated syntax and structure
   ✓ Deployed to localhost:3001/mcp
   ✓ Ready to connect from Claude Desktop, Cursor, or Windsurf
 ```
 
-The entire flow — from description to running server — takes **under 60 seconds**.
+The entire flow — from description to running server — takes **less than 10 minutes**.
 
 ---
 
@@ -60,7 +60,7 @@ The entire flow — from description to running server — takes **under 60 seco
 | Feature | Description |
 |---------|-------------|
 | **Chat-to-Server** | Describe what you need in plain English. The AI asks smart clarifying questions and designs the full architecture. |
-| **13-Step Pipeline** | Template copy → placeholder injection → LLM-powered tool/resource/prompt generation → validation → packaging → deployment. |
+| **Smart Pipeline** | Template copy → placeholder injection → LLM-powered tool/resource/prompt generation → validation → packaging → deployment. |
 | **Dual Language** | Generates Python (FastMCP) or TypeScript (@modelcontextprotocol/sdk) servers — your choice. |
 | **Auto-Deploy** | Generated servers are automatically installed, started, and made available on `localhost`. No manual setup. |
 | **Client Configs** | Instant copy-paste configs for **Claude Desktop**, **Cursor**, **Windsurf**, and any MCP-compatible client. |
@@ -120,77 +120,6 @@ Navigate to **http://localhost:5173** and describe the MCP server you want.
 
 ---
 
-## How It Works
-
-```
-┌─────────────────────────────────────────────────────────────┐
-│                        YOU (Browser)                         │
-│   "I need an MCP server that manages GitHub issues and      │
-│    sends Slack notifications"                                │
-└─────────────────────┬───────────────────────────────────────┘
-                      │ WebSocket
-                      ▼
-┌─────────────────────────────────────────────────────────────┐
-│                   INTELLIGENCE ENGINE                         │
-│                                                               │
-│  Phase 1: UNDERSTANDING                                       │
-│    → Extract tools, APIs, features from description           │
-│    → Identify gaps: auth method? language? scope?             │
-│                                                               │
-│  Phase 2: CLARIFYING                                          │
-│    → Ask smart questions one at a time                        │
-│    → User picks from option cards or types freely             │
-│    → Merge answers, track completeness                        │
-│                                                               │
-│  Phase 3: DESIGNING                                           │
-│    → Generate full MCPArchitecture JSON                       │
-│    → Tools, resources, prompts, env vars, dependencies        │
-│    → Show architecture card in UI                             │
-└─────────────────────┬───────────────────────────────────────┘
-                      │ User clicks "Generate Code"
-                      ▼
-┌─────────────────────────────────────────────────────────────┐
-│                  13-STEP CODE GENERATOR                       │
-│                                                               │
-│   1.  Copy language template (Python / TypeScript)            │
-│   2.  Replace placeholders (name, description, version)       │
-│   3.  Generate code blocks (imports, registrations, deps)     │
-│   4.  LLM generates each tool file (with retry + postfix)    │
-│   5.  LLM generates each resource file                       │
-│   6.  LLM generates each prompt file                         │
-│   7.  Rename package to match server name                    │
-│   8.  Validate syntax, structure, env var consistency         │
-│   9.  Regenerate .env.example with discovered vars            │
-│  10.  Generate MCP client configs                             │
-│  11.  Generate test stubs                                     │
-│  12.  Generate README documentation                           │
-│  13.  Package as ZIP                                          │
-└─────────────────────┬───────────────────────────────────────┘
-                      │ Automatic
-                      ▼
-┌─────────────────────────────────────────────────────────────┐
-│                    AUTO-DEPLOYER                               │
-│                                                               │
-│   1. Copy to ~/.mcp-factory/deployments/                      │
-│   2. Install dependencies (uv sync / npm install)             │
-│   3. Start server on dynamic port (3001-3099)                 │
-│   4. Wait for TCP readiness                                   │
-│   5. Generate client configs for Claude/Cursor/Windsurf       │
-│   6. Server is LIVE at http://localhost:{port}/mcp            │
-└─────────────────────┬───────────────────────────────────────┘
-                      │
-                      ▼
-┌─────────────────────────────────────────────────────────────┐
-│               YOUR MCP SERVER IS RUNNING                      │
-│                                                               │
-│   → Copy config into Claude Desktop / Cursor / Windsurf      │
-│   → Download source code as ZIP                               │
-│   → Push to GitHub with one click                             │
-└─────────────────────────────────────────────────────────────┘
-```
-
----
-
 ## Architecture
 
 ```
@@ -199,7 +128,7 @@ mcp-factory/
 │   ├── app/
 │   │   ├── api/                # REST + WebSocket endpoints
 │   │   ├── engine/             # Intelligence Engine (orchestrator, prompts)
-│   │   ├── codegen/            # 13-step code generation pipeline
+│   │   ├── codegen/            # Code generation pipeline
 │   │   ├── models/             # Pydantic models (session, architecture, messages)
 │   │   ├── services/           # LLM client, deployment manager, session manager
 │   │   └── utils/              # JSON parser, helpers
